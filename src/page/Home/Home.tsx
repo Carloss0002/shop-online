@@ -85,8 +85,9 @@ export function Home(){
                              <div className="carousel-indicators absolute mb-3 flex justify-center w-56">
                                 {
                                     produtos.images?.map(item=>( 
-                                         
-                                             <img className="mr-4 w-full block" src={item} alt={produtos.title} />                        
+                                          <div key={item}>
+                                              <img className="mr-4 w-full block" src={item} alt={produtos.title} />                        
+                                          </div>
                                         
                                     ))
                                 }
