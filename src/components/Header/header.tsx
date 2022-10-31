@@ -1,17 +1,28 @@
-import { ReactNode } from "react"
+import { InputHTMLAttributes, ReactNode } from "react"
 import {Link} from 'react-router-dom'
 
-export interface IPropsHome{
-    children: ReactNode
+export interface IPropsHome extends InputHTMLAttributes<HTMLInputElement>{
+   children:ReactNode 
 }
 
-export function Header({children}:IPropsHome){
+export function Header({children,...props}:IPropsHome){
     return(
         <header className="bg-gray-800 w-full h-[150px] rounded-b-lg flex justify-around items-center">
             <Link to='/' className="font-ubuntu text-gray-400 font-light leading-10 md:text-sm sm:text-xs">
                E-commerce
             </Link>
-            {children}
+            <div className="relative flex">
+               
+                    <input 
+                        type="text" {...props} 
+                        placeholder="Filtrar Elementos" 
+                        className="w-[571px] h-[71px] rounded-xl text-start pl-3 font-open text-xs outline-none"
+                    />
+                
+                <div className="absolute right-4">
+                   {children}
+                </div>
+            </div>
             <div>
                 <Link to='/SignIn' className="bg-gray-600 text-white md:w-36 font-ubuntu font-light text-xs py-3 px-4 rounded mr-7 sm:w-10">Sign In</Link> 
                 <Link to='/SignUp'  className="bg-gray-900 text-white md:w-36 font-ubuntu font-light text-xs py-3 px-4 rounded sm:10">Sign Up</Link> 

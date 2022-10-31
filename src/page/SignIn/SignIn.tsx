@@ -3,7 +3,8 @@ import { Button } from "../../components/button/button";
 import { Input } from "../../components/input/input";
 import { Text } from "../../components/Title/text";
 import {Link} from 'react-router-dom'
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../Context/user";
 
 interface IState{
    email: string,
@@ -15,7 +16,9 @@ interface IState{
 }
 
 export function SignIn(){
-    
+   
+   const {signIn} = useContext(AuthContext)
+
    const [createAccount, setAccount] = useState<IState>({
          email: '',
          name: '',
@@ -32,15 +35,14 @@ export function SignIn(){
    function setFormData(e:any){
       e.preventDefault()
 
-      if(email.length < 10 ||  name === ''){
-         if(senha !== confirm){
-             setAccount({...createAccount, confirmErr: true})
-         }
+      if(email.length < 10 ||  name === '' || senha !== confirm){
          setAccount({...createAccount, erro: true})
       } else {
          setAccount({...createAccount, erro: false, confirmErr: false})
          console.log(createAccount)
       }
+
+      signIn(email, senha)
    }
    
    function setConfirm(e:any){
@@ -107,7 +109,7 @@ export function SignIn(){
                   <label htmlFor="confirm">
                      <Text className="mx-5">
                          {
-                            confirmErr ? (
+                            senha !== confirm ? (
                                <span className="text-error font-ubuntu">Senhas diferentes</span>
                             ):(
                                'Confirme sua Senha'
@@ -123,13 +125,13 @@ export function SignIn(){
                          />
                      </Input.Root>
                   </label>
-                  <Button type="submit" className="md:w-[496px] sm:w-full py-5 mb-5 mt-7 mx-5 px-5 rounded-md">
-                     Enviar Dados
-                  </Button>
                   {
                   erro &&
                   <p className="text-error font-sans mx-5">Verifique suas informações, algo está errado</p>
                   }
+                  <Button type="submit" className="md:w-[496px] sm:w-full py-5 mb-5 mt-7 mx-5 px-5 rounded-md">
+                     Enviar Dados
+                  </Button>
               </form>
            </div>
            <Link to='/SignUp' className="font-ubuntu font-light text-sm mt-10 mb-11 leading-9 underline">

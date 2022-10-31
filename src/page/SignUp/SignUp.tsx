@@ -2,7 +2,8 @@ import Logo from "../../components/logo/logo";
 import {Input} from '../../components/input/input'
 import {Button} from '../../components/button/button'
 import {Link} from 'react-router-dom'
-import { useState } from "react";
+import { useContext, useState } from "react";
+import {AuthContext} from '../../Context/user'
 
 interface IState{
     email: string,
@@ -10,7 +11,6 @@ interface IState{
 }
 
 export function SignUp(){
-    
     const [login, setLogin] = useState<IState>({
         email: '',
         senha: ''
@@ -18,6 +18,7 @@ export function SignUp(){
 
     function loginData(e:any){
         e.preventDefault()
+
     }
 
     return(
