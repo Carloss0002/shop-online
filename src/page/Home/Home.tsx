@@ -2,33 +2,36 @@ import axios from "axios";
 
 import { Header } from "../../components/Header/header";
 import { MagnifyingGlass} from 'phosphor-react'
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {Categories} from '../../Models/categories'
 import {Products} from '../../Models/Products'
 import { useNavigate } from "react-router-dom";
 import {CardELement} from '../../components/cards/index'
 import { Button } from "../../components/button/button";
+import { AuthContext } from "../../Context/user";
 
 
 interface IStateForHome{
      categories: Categories[],
-     products: Products[]
+     products: Products[],
+     u: any
 }
 
 export function Home(){
     const [home, setHome] = useState<IStateForHome>({
         categories: [] as Categories[],
-        products: [] as Products[]
+        products: [] as Products[],
+        u: []
     })
-    
+    const {userInfo} = useContext(AuthContext)
     const Navigate = useNavigate()
 
+    console.log(userInfo)
     useEffect(()=>{
        loadApi()
     },[])
     
     async function loadApi() {
-
         const [categories, products] = await Promise.all([
             axios.get('https://api.escuelajs.co/api/v1/categories'),
             axios.get('https://api.escuelajs.co/api/v1/products?offset=0&limit=50')
@@ -38,7 +41,7 @@ export function Home(){
             return element.id === 1 ||element.id === 2 ||element.id === 3 ||element.id === 4 || element.id === 5 
         })
         
-        setHome({categories: categoriesFiltered, products: products.data})
+        setHome({...home,categories: categoriesFiltered, products: products.data})
     }
     
     function redirectForCategories(id:any, name: string){

@@ -11,6 +11,7 @@ interface IState{
 }
 
 export function SignUp(){
+    const {signUp} = useContext(AuthContext)
     const [login, setLogin] = useState<IState>({
         email: '',
         senha: ''
@@ -18,7 +19,7 @@ export function SignUp(){
 
     function loginData(e:any){
         e.preventDefault()
-
+        return signUp(login.email, login.senha)
     }
 
     return(

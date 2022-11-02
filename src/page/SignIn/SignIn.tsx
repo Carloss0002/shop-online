@@ -42,7 +42,7 @@ export function SignIn(){
          console.log(createAccount)
       }
 
-      signIn(email, senha)
+      return signIn(email, senha, name)
    }
    
    function setConfirm(e:any){
