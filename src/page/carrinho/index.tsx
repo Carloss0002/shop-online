@@ -1,8 +1,13 @@
 import { Header } from "../../components/Header/header";
 import { Button } from '../../components/button/button'
-import { MagnifyingGlass, ShoppingCart, Money, ShoppingBag } from "phosphor-react";
+import { MagnifyingGlass, ShoppingCart, Money } from "phosphor-react";
+import {useSelector} from 'react-redux'
 
 export function Carrinho(){
+    const product = useSelector((store:any)=> store.Cart)  
+
+    console.log(product)
+
     return(
         <div>
             <Header>

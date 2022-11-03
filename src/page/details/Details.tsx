@@ -8,6 +8,8 @@ import { useEffect,  useRef,  useState } from "react"
 import { Products } from "../../Models/Products"
 import {Button} from '../../components/button/button'
 import {CardELement} from '../../components/cards/index'
+import { useDispatch } from "react-redux"
+import { add } from "../../store/cartElement"
 
 
 
@@ -21,6 +23,7 @@ interface IStateForProduct{
 export function Details(){
     let {id, idCategory} = useParams()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const carouselWidth = useRef<HTMLDivElement>(null)
    
     
@@ -70,6 +73,10 @@ export function Details(){
     }
     const handleRight = (e:any)=>{
         e.preventDefault()
+    }
+    
+    const handleProduct = (product:any)=>{
+        dispatch(add(product))
     }
 
     return(
@@ -134,7 +141,7 @@ export function Details(){
                                 <p className="font-open font-semibold pt-2 text-md">Price: ${infoProduct.price}</p>
                             </div>
                             <div>
-                                <Button className="rounded block w-full p-2 hover:bg-gold-700">ADD TO CART</Button>
+                                <Button className="rounded block w-full p-2 hover:bg-gold-700" onClick={()=>handleProduct(infoProduct)}>ADD TO CART</Button>
                                 <Button className="rounded block w-full p-3 mt-3 bg-gold-700 hover:bg-gold-900">BUY</Button>
                                 <p className="font-open font-extralight text-[10px] text-center">secure transaction</p>
                             </div>
