@@ -1,19 +1,34 @@
+import produce from 'immer'
 import {createSlice} from '@reduxjs/toolkit'
 
 
-let initialStore:object[] = []
+let initialState:any = {
+    products: [],
+}
 
 export const cartShopping = createSlice({
         name: 'cart',
-        initialState:initialStore,
+        initialState,
         reducers:{
             add: (state, action)=>{
-                state.push(action.payload)
-                console.log(initialStore)
-                
+                 return produce(state, (draft:any)=>{
+                    const indexProducts = draft.products.findIndex((t:any) => t.id === action.payload.id)
+                    if(indexProducts >= 0){
+                        alert('item já adicionado no carrinho')
+                    } else{
+                        draft.products.push(action.payload)
+                    }
+                })
             },
             remove: (state, action)=>{
-                state.filter((item:any)=>item !== action.payload)
+                return produce(state, (draft:any)=>{
+                   const indexProducts = draft.products.findIndex((t:any) => t.id === action.payload)
+                   
+                   if(indexProducts >= 0){
+                     draft.products.splice(indexProducts, 1)
+                   }
+                
+               })
             }
         }
 })

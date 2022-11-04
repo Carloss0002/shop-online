@@ -17,7 +17,7 @@ interface IStateForProduct{
     infoProduct: Products
     products: Products[]
     imgElement: string,
-    
+    search: string
 }
 
 export function Details(){
@@ -31,9 +31,10 @@ export function Details(){
         infoProduct: {} as Products,
         products: [] as Products[],
         imgElement: '',
+        search:'',
       
     })
-    let {infoProduct, products, imgElement} =  product
+    let {infoProduct, products, imgElement, search} =  product
 
     useEffect(()=>{
         getProdutForId()
@@ -81,7 +82,7 @@ export function Details(){
 
     return(
         <div>
-            <Header>
+            <Header type='text' value={search} onChange={e=>setProduct({...product, search: e.target.value})}>
                 <Button className="absolute w-[61px] h-[71px] text-sm flex justify-center items-center rounded-r-lg">
                      <MagnifyingGlass/>
                 </Button>
@@ -109,7 +110,7 @@ export function Details(){
                                         return(
                                            <div className="w-20 h-20 m-2" key={item}>
                                                 <label htmlFor={item}  className="hover: cursor-pointer">
-                                                    <img src={item} alt={infoProduct.title} className={`rounded  hover:border-gold-700 hover:border-2  ${imgElement === item? 'border border-4 border-gold-900 rounded' : ""}`} />
+                                                    <img src={item} alt={infoProduct.title} className={`rounded  hover:border-gold-700 hover:border-2  ${imgElement === item? 'border-4 border-gold-900 rounded' : ""}`} />
                                                     <input 
                                                         type="radio" 
                                                         name="radio-img" 

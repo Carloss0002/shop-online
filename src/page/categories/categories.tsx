@@ -44,7 +44,7 @@ export function Categories(){
     let {categorias, search} = state
     return(
         <div>
-          <Header placeholder="Filtrar Elementos" value={search}>
+          <Header placeholder="Filtrar Elementos" value={search} onChange={e=> setState({...state, search: e.target.value})}>
               <Button className="absolute w-[61px] h-[71px] text-sm flex justify-center items-center rounded-r-lg">
                  <MagnifyingGlass/>
                </Button>
