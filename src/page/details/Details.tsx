@@ -9,7 +9,7 @@ import { Products } from "../../Models/Products"
 import {Button} from '../../components/button/button'
 import {CardELement} from '../../components/cards/index'
 import { useDispatch } from "react-redux"
-import { add } from "../../store/cartElement"
+import { add } from "../../store/reducers/cartElement"
 
 
 
@@ -60,6 +60,7 @@ export function Details(){
     
     function reformeDetails(id:any, idCategory:number){
         navigate(`/Details/${id}/${idCategory}`)
+         window.scrollTo(200, 200)
     }
 
     if(!products || !products.length || !infoProduct){
@@ -162,13 +163,16 @@ export function Details(){
                             
                                 products.map((productsForCategory)=>{
                                     const {id, images, title, price, category} =productsForCategory
-                                    let image = images[0]
                                     return(
                                         <CardELement.cardBorder key={id} onClick={()=>reformeDetails(id, category.id)} className="mx-4  py-1 px-7">
-                                        <div className=" mb-3 flex justify-center w-56">
-                                            <img src={image} className="rounded" alt={title} />
-                                        </div>
-                                        <CardELement.cardText title={title} price={price}/>
+                                            <div className=" mb-3  w-56 max-h-36 overflow-hidden">
+                                                {
+                                                images?.map(image=>(
+                                                    <img src={image} key={image} alt={title} className="object-center"/>
+                                                ))
+                                                }  
+                                            </div>
+                                            <CardELement.cardText title={title} price={price}/>
                                         </CardELement.cardBorder>
                                     )
                                 })

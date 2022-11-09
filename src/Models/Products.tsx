@@ -4,7 +4,7 @@ export interface Products {
     price: number;
     description: string;
     category: Category;
-    images?: (string)[] | null;
+    images?: (string)[];
   }
   export interface Category {
     id: number;

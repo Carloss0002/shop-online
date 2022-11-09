@@ -82,7 +82,7 @@ export function Home(){
                 </div>
             </section>
             <section>
-                 <h2>Produtos para todos os gostos</h2>
+                 <h2 className="font-open mx-8">Recommended for you</h2>
 
                  
 
@@ -91,7 +91,7 @@ export function Home(){
                        home.products.map(produtos=>
                         (
                           <CardELement.cardBorder key={produtos.id} onClick={()=>redirectForDetails(produtos.id, produtos.category.id)} className="w-64 border p-4 border-gray-900 rounded m-5 hover:cursor-pointer">
-                             <div className=" mb-3 flex justify-center w-56">
+                             <div className=" mb-3 w-56 overflow-hidden border max-h-40 rounded">
                                 {
                                     produtos.images?.map(item=>( 
                                           <div key={item}>

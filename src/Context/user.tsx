@@ -10,8 +10,10 @@ type userState = {
 const typeContext = {
     signIn: (email:string, senha:string, name: string)=>{},
     signUp: (email:string, senha:string)=>{},
+    pushBuyProducts: (products:any)=>{},
     userInfo: {},
     loginUser: false,
+    buyComponents: []
 }   
 
 type AuthProviderProps = {
@@ -21,6 +23,7 @@ type AuthProviderProps = {
 interface infoUser{
     userInfo: {},
     loginUser: boolean,
+    buyComponents: []
 }
 
 export const AuthContext = createContext(typeContext)
@@ -31,15 +34,15 @@ export const AuthProvider = ({children}:AuthProviderProps)=>{
     const [info, setUserInfo] = useState<infoUser>({
        userInfo: {},
        loginUser: false,
-       
+       buyComponents: []
     })
  
-    let {userInfo, loginUser} = info
+    let {userInfo, loginUser, buyComponents} = info
 
     const redirect = useNavigate()
 
     useEffect(()=>{
-        onAuthStateChanged(Auth, (user:any) => setUserInfo({userInfo: user, loginUser: true}))
+        onAuthStateChanged(Auth, (user:any) => setUserInfo({...info,userInfo: user, loginUser: true}))
     }, [])
     
     async function signIn(email:string, senha:string, name:string){
@@ -61,7 +64,7 @@ export const AuthProvider = ({children}:AuthProviderProps)=>{
        await signInWithEmailAndPassword(Auth, email, senha)
        .then((user)=>{
          
-          setUserInfo({userInfo: user.user, loginUser: true, })
+          setUserInfo({...info,userInfo: user.user, loginUser: true, })
        })
        .catch((err)=>{
         console.log(err)
@@ -70,7 +73,10 @@ export const AuthProvider = ({children}:AuthProviderProps)=>{
         redirect('/')
        })
     }
-
+    
+    function pushBuyProducts(products:any){
+       setUserInfo({...info, buyComponents: products})
+    }
 
     return(
         <AuthContext.Provider
@@ -79,6 +85,8 @@ export const AuthProvider = ({children}:AuthProviderProps)=>{
              signUp,
              userInfo,
              loginUser,
+             pushBuyProducts,
+             buyComponents
            }}
         >
           {children}

@@ -1,9 +1,13 @@
 import { Button } from "../../components/button/button";
 import { Header } from "../../components/Header/header";
 import {MagnifyingGlass} from 'phosphor-react'
+import {useContext} from 'react'
+import { AuthContext } from "../../Context/user";
 
 
 export function BuyProduct(){
+    const {buyComponents} = useContext(AuthContext)
+    console.log(buyComponents)
     return(
         <div>
             <Header>

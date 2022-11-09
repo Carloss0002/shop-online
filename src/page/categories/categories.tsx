@@ -61,7 +61,7 @@ export function Categories(){
                                  className="w-64 border rounded-[10px] border-gray-900 p-4 m-5 hover:cursor-pointer"
                                  onClick={()=>redirectForDetail(id, category.id)}
                             > 
-                                <div>
+                                <div className="max-h-40 rounded overflow-hidden">
                                     {
                                         images?.map(i=>(
                                             <img className="rounded" src={i} alt={title} key={i}/>

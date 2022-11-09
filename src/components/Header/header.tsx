@@ -1,6 +1,7 @@
 import { User } from "firebase/auth"
 import { ShoppingCart } from "phosphor-react"
-import { InputHTMLAttributes, ReactNode, useContext, useEffect, useState } from "react"
+import { InputHTMLAttributes, ReactNode, useContext } from "react"
+import { useSelector } from "react-redux"
 import {Link} from 'react-router-dom'
 import { AuthContext } from "../../Context/user"
 import { Auth } from "../../Services/firebaseConnecting"
@@ -10,12 +11,10 @@ export interface IPropsHome extends InputHTMLAttributes<HTMLInputElement>{
    children:ReactNode 
 }
 
-type ForState={
-    userName: User
-}
-
 export function Header({children,...props}:IPropsHome){
-    const {loginUser, userInfo} = useContext(AuthContext)
+    const {loginUser} = useContext(AuthContext)
+
+    const productsLength:object[] = useSelector((store:any)=>store.Cart.products)
    
     return(
         <header className="bg-gray-800 w-full h-[150px] rounded-b-lg flex justify-around items-center">
@@ -38,7 +37,8 @@ export function Header({children,...props}:IPropsHome){
                 {
                     loginUser ? (
                       <div className="flex">
-                        <Link to='/cart' className="px-4">
+                        <Link to='/cart' className="px-4 text-center text-white">
+                            <span>{productsLength.length}</span>
                           <ShoppingCart size={40} color={'#fff'}/>
                         </Link>
                         <div className="text-center px-4 text-white">
