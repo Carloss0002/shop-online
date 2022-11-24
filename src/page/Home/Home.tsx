@@ -2,31 +2,27 @@ import axios from "axios";
 
 import { Header } from "../../components/Header/header";
 import { MagnifyingGlass} from 'phosphor-react'
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {Categories} from '../../Models/categories'
 import {Products} from '../../Models/Products'
 import { useNavigate } from "react-router-dom";
 import {CardELement} from '../../components/cards/index'
 import { Button } from "../../components/button/button";
-import { AuthContext } from "../../Context/user";
 
 
 interface IStateForHome{
      categories: Categories[],
      products: Products[],
-     u: any
 }
 
 export function Home(){
     const [home, setHome] = useState<IStateForHome>({
         categories: [] as Categories[],
-        products: [] as Products[],
-        u: []
+        products: [] as Products[]  
     })
-    const {userInfo} = useContext(AuthContext)
+    
     const Navigate = useNavigate()
 
-    console.log(userInfo)
     useEffect(()=>{
        loadApi()
     },[])

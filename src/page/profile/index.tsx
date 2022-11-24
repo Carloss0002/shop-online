@@ -19,7 +19,7 @@ type ForStateProfile={
 }
 
 export function Profile(){
-    const {userInfo, loginUser} = useContext(AuthContext)
+    const {userInfo, SignOut} = useContext(AuthContext)
     const [state, setState] = useState<ForStateProfile>({
         userInfos: userInfo as Users,
         name: '',
@@ -64,19 +64,14 @@ export function Profile(){
                                    disabled
                                 />
                             </Input.Root>        
-                            {/* <Input.Root>
-                                <Input.InputComponent 
-                                    placeholder={state.userInfos.phoneNumber === null? 'Adicione um numero' : state.userInfos.phoneNumber}
-                                    value={state.number}
-                                    type='number'
-                                    onChange={e=>setState({...state, number: Number(e.target.value)})}
-                                />
-                            </Input.Root>                 */}
                             <Button type="submit" className="w-full py-2 rounded hover:bg-gold-700">
                                 Salvar
                             </Button>
                         </form>
                     }
+                    <Button onClick={()=>SignOut()} className="w-full mt-3 opacity-50 rounded bg-gray-400 hover:bg-gray-600">
+                         sair
+                    </Button>
               </div>
            </section>
         </div>

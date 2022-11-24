@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth'
 import {createContext, ReactNode, useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import {Auth} from '../Services/firebaseConnecting.js'
@@ -10,6 +10,7 @@ type userState = {
 const typeContext = {
     signIn: (email:string, senha:string, name: string)=>{},
     signUp: (email:string, senha:string)=>{},
+    SignOut: ()=>{},
     pushBuyProducts: (products:any)=>{},
     userInfo: {},
     loginUser: false,
@@ -40,9 +41,15 @@ export const AuthProvider = ({children}:AuthProviderProps)=>{
     let {userInfo, loginUser, buyComponents} = info
 
     const redirect = useNavigate()
-
+  
     useEffect(()=>{
-        onAuthStateChanged(Auth, (user:any) => setUserInfo({...info,userInfo: user, loginUser: true}))
+        onAuthStateChanged(Auth, (user:any) =>{ 
+            if(user !== null){
+                setUserInfo({...info, userInfo: user , loginUser: true}) 
+            } else{
+                setUserInfo({...info, userInfo: {}, loginUser: false})
+            }
+        })
     }, [])
     
     async function signIn(email:string, senha:string, name:string){
@@ -63,15 +70,22 @@ export const AuthProvider = ({children}:AuthProviderProps)=>{
     async function signUp(email:string, senha:string){
        await signInWithEmailAndPassword(Auth, email, senha)
        .then((user)=>{
-         
           setUserInfo({...info,userInfo: user.user, loginUser: true, })
        })
        .catch((err)=>{
-        console.log(err)
+            console.log(err)
        })
        .finally(()=>{
-        redirect('/')
+            redirect('/')
        })
+    }
+
+    function SignOut(){
+         signOut(Auth).then(()=>{
+            setUserInfo({...info, userInfo:{}, loginUser: false})
+            alert('saiu')
+            redirect('/')
+         })
     }
     
     function pushBuyProducts(products:any){
@@ -86,7 +100,8 @@ export const AuthProvider = ({children}:AuthProviderProps)=>{
              userInfo,
              loginUser,
              pushBuyProducts,
-             buyComponents
+             buyComponents,
+             SignOut
            }}
         >
           {children}
