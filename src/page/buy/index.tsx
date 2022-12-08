@@ -1,42 +1,19 @@
 import { Button } from "../../components/button/button";
 import { Header } from "../../components/Header/header";
 import {MagnifyingGlass} from 'phosphor-react'
-import {useContext, useEffect, useState} from 'react'
-import { AuthContext } from "../../Context/user";
 import { Products } from "../../Models/Products";
+import { useSelector } from "react-redux";
 
-
-interface IBuy{
-   product: Products[]
-}
 
 export function BuyProduct(){
+    const product:Products[] = useSelector((store:any)=>store.buy.BuyProducts) 
 
-    const {buyComponents} = useContext(AuthContext)
-    const [state, setState] = useState<IBuy>({
-      product: [] as Products[]
-    })
-    useEffect(()=>{
-      searchBuyElements()
-    },[])
-
-    let valorTotal:number = buyComponents.reduce(calcularValorTotal, 0)
+    let valorTotal:number = product.reduce(calcularValorTotal, 0)
     let freteCalculo:number = valorTotal * 0.05
     
     function calcularValorTotal(total:any, item:Products){
       return total + (item.price)
    }
-
-    
-    function searchBuyElements(){
-      if(buyComponents.length > 0){
-        setState({product: buyComponents})
-      } else {
-         return
-      }
-    }
-
-    console.log(state.product)
 
     return(
         <div>
@@ -51,7 +28,7 @@ export function BuyProduct(){
                 <div className="flex-col">
 
                   {
-                  state.product.map(itens=>(
+                   product.map(itens=>(
                     <div className="border flex mb-4 w-[664px] rounded-lg h-[206px] p-5" key={itens.id}>
                         <div className="w-[166px] max-h-[166px] overflow-hidden rounded-md border">
                            {
@@ -79,7 +56,7 @@ export function BuyProduct(){
                         </div>
                         <div className="flex justify-between text-sm mt-6 pb-2">
                             <span>Frete</span>
-                            <span>$ {freteCalculo}</span>
+                            <span>$ {freteCalculo.toFixed(2)}</span>
                         </div>
                       </div>
                       <div className="text-red flex justify-between font-bold text-sm mt-16">

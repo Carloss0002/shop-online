@@ -4,17 +4,14 @@ import { MagnifyingGlass, ShoppingCart, Money } from "phosphor-react";
 import {useDispatch, useSelector} from 'react-redux'
 import { Products } from "../../Models/Products";
 import {remove} from '../../store/reducers/cartElement'
-import { useContext } from "react";
-import { AuthContext } from "../../Context/user";
 import { useNavigate } from "react-router-dom";
-
+import {pushElementForPurchase} from '../../store/reducers/buyProduct'
 
 export function Carrinho(){
     const product:Products[] = useSelector((store:any)=> store.Cart.products) 
-    const {pushBuyProducts} = useContext(AuthContext)
-    const buyPage = useNavigate()
+     
 
-    console.log(product)
+    const buyPage = useNavigate()
    
    const dispatch = useDispatch()
    
@@ -30,9 +27,11 @@ export function Carrinho(){
        return total + (item.price)
    }
 
-   function redirectForBuy(products:any){
-      pushBuyProducts(products)
-      buyPage('/Buy')
+   function redirectForBuy(){
+     
+     product.forEach(e => dispatch(pushElementForPurchase(e)))
+  
+     buyPage('/buy')
    }
 
     return(
@@ -93,7 +92,7 @@ export function Carrinho(){
                     })
                   }
 
-                    <Button onClick={()=>redirectForBuy(product)} className="w-full h-9 mt-3 rounded hover:bg-gold-700">
+                    <Button onClick={()=>redirectForBuy()} className="w-full h-9 mt-3 rounded hover:bg-gold-700">
                       buy all products
                     </Button>
                 </article>

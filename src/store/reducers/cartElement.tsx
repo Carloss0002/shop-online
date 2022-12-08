@@ -4,7 +4,6 @@ import {createSlice} from '@reduxjs/toolkit'
 
 let initialState:any = {
     products: [],
-    
 }
 
 export const cartShopping = createSlice({

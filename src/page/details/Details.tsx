@@ -1,15 +1,16 @@
 import axios from "axios"
 import { useParams, Link, useNavigate } from "react-router-dom"
 import { Header } from "../../components/Header/header"
-import { Input } from "../../components/input/input"
 import {ArrowCircleLeft, MagnifyingGlass} from 'phosphor-react'
 import { ProductsApi } from "../../Services/ProductsApi"
-import { useEffect,  useRef,  useState } from "react"
+import { useEffect,  useContext,  useState } from "react"
 import { Products } from "../../Models/Products"
 import {Button} from '../../components/button/button'
 import {CardELement} from '../../components/cards/index'
 import { useDispatch } from "react-redux"
 import { add } from "../../store/reducers/cartElement"
+import {pushElementForPurchase} from '../../store/reducers/buyProduct'
+
 
 
 
@@ -23,10 +24,7 @@ interface IStateForProduct{
 export function Details(){
     let {id, idCategory} = useParams()
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const carouselWidth = useRef<HTMLDivElement>(null)
-   
-    
+    const dispatch = useDispatch()  
     let [product, setProduct] = useState<IStateForProduct>({
         infoProduct: {} as Products,
         products: [] as Products[],
@@ -71,7 +69,7 @@ export function Details(){
     const handleLeft =(e:any)=>{
         e.preventDefault()
         
-        console.log()
+     
     }
     const handleRight = (e:any)=>{
         e.preventDefault()
@@ -81,6 +79,10 @@ export function Details(){
         dispatch(add(product))
     }
 
+    function buyEspecificProduct(element:any){
+       navigate('/Buy')
+       return dispatch(pushElementForPurchase(element))
+    }
     return(
         <div>
             <Header type='text' value={search} onChange={e=>setProduct({...product, search: e.target.value})}>
@@ -144,7 +146,13 @@ export function Details(){
                             </div>
                             <div>
                                 <Button className="rounded block w-full p-2 hover:bg-gold-700" onClick={()=>handleProduct(infoProduct)}>ADD TO CART</Button>
-                                <Button className="rounded block w-full p-3 mt-3 bg-gold-700 hover:bg-gold-900">BUY</Button>
+                                <Button 
+                                  className="rounded block w-full p-3 mt-3 bg-gold-700 hover:bg-gold-900" 
+                                  onClick={()=>buyEspecificProduct(infoProduct)}
+                                >
+                                    BUY
+                                </Button>
+
                                 <p className="font-open font-extralight text-[10px] text-center">secure transaction</p>
                             </div>
                           </div>
@@ -157,7 +165,6 @@ export function Details(){
                  <article className="flex items-center justify-center w-full md:max-w-5xl">
                      <div 
                            className="flex cursor-grab overflow-auto scroll-smooth" 
-                           ref={carouselWidth}
                       >
                             {
                             

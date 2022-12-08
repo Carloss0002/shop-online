@@ -37,8 +37,9 @@ export const AuthProvider = ({children}:AuthProviderProps)=>{
        loginUser: false,
        buyComponents: []
     })
+    let buyComponents:[] = []
  
-    let {userInfo, loginUser, buyComponents} = info
+    let {userInfo, loginUser} = info
 
     const redirect = useNavigate()
   
@@ -88,7 +89,7 @@ export const AuthProvider = ({children}:AuthProviderProps)=>{
          })
     }
     
-    function pushBuyProducts(products:any){
+    function pushBuyProducts(products:[]){
        setUserInfo({...info, buyComponents: products})
     }
 
